@@ -11,6 +11,7 @@ import Vessels from "./vessels/vessels.component";
 import DrawControl from "./drawcontrol/drawcontrol.component";
 import TimeControl from "./timecontrol/timecontrol.component";
 import Path2 from "./path/path2.component";
+import SideBar from "./sidebar/sidebar.component";
 
 import { VesselContext } from "../../contexts/vessel.context";
 
@@ -38,6 +39,16 @@ export const Map = () => {
   return (
     <>
       <div className="title-wrapper">
+        <div className="header-temp">
+          <div>
+            <div className="header-temp">
+              <img className="img-deloitte" src="./deloitte.png" alt="" />
+            </div>
+            <div className="header-temp">
+              <b>Maritime Anomaly Detection</b>
+            </div>
+          </div>
+        </div>
         <div className="header-temp">
           <input placeholder="URL to backend" onChange={onSearchChange} />
         </div>
@@ -78,6 +89,7 @@ export const Map = () => {
         </LayersControl>
         <TimeControl />
       </MapContainer>
+      <SideBar></SideBar>
     </>
   );
 };

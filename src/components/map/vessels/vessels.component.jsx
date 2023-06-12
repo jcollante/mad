@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useMemo, useRef } from "react";
 import { Marker, Popup } from "react-leaflet";
 import { useMap } from "react-leaflet";
 
 import ShipIcon from "../icon/ship-icon.component";
+import AISLostIcon from "../icon/ais-signal-lost-icon.component";
 import AnomalyIcon from "../icon/anomaly-icon.component";
 import L, { latLng } from "leaflet";
 
@@ -21,10 +22,12 @@ const Vessels = () => {
   const { currentTime } = useContext(VesselContext);
   const { urlServer } = useContext(VesselContext);
 
+  const markerRef = useRef();
+
   // Call useEffect by changing the variable and then causing the rendering effect
   useEffect(() => {
     fetch(
-      `${urlServer}/getVesselsInElapsedTime?timeframe_min=0&current_time=${
+      `${urlServer}/getAllVesselsInElapsedTime?timeframe_min=1&current_time=${
         currentTime.toISOString().split(".")[0]
       }`,
       {
@@ -102,7 +105,7 @@ const Vessels = () => {
 
   useEffect(() => {
     fetch(
-      `${urlServer}/getVesselsInElapsedTime?timeframe_min=${timeFrame}&current_time=${
+      `${urlServer}/getAllVesselsInElapsedTime?timeframe_min=${timeFrame}&current_time=${
         currentTime.toISOString().split(".")[0]
       }`,
       {
@@ -127,9 +130,24 @@ const Vessels = () => {
   };
 
   const getCorrectIcon = (v) => {
-    if (!v.hasAnomaly) return ShipIcon();
-    else return AnomalyIcon();
+    if (v.hasAnomaly) return AnomalyIcon();
+    else if (v.AISLost) return AISLostIcon();
+    else return ShipIcon();
   };
+
+  const eventHandlers = useMemo(
+    (e) => ({
+      mouseover() {
+        console.log("over");
+        if (markerRef) markerRef.current.openPopup();
+      },
+      mouseout() {
+        console.log("out");
+        if (markerRef) markerRef.current.closePopup();
+      },
+    }),
+    []
+  );
 
   return (
     <>
@@ -140,33 +158,37 @@ const Vessels = () => {
           icon={getCorrectIcon(v)}
           data={v}
           eventHandlers={{
-            click: (e) => {
+            // click: (e) => {
+            //   updateSelectedVessel(e);
+            //   e.target.openPopup();
+            // },
+            mouseover: (e) => {
               updateSelectedVessel(e);
+              e.target.openPopup();
             },
           }}
           rotationAngle={Math.abs(v.Heading)}
-        ></Marker>
-      ))}
-      {currentVessel && (
-        <Popup
-          key={"vessel-" + currentVessel.MMSI + Math.random() * 1000}
-          position={[currentVessel.LAT, currentVessel.LON]}
         >
-          <div className="div-popup-container">
-            <h4>Vessel Options</h4>
+          <Popup
+            key={"vessel-" + currentVessel.MMSI + Math.random() * 1000}
+            position={[currentVessel.LAT, currentVessel.LON]}
+          >
+            <div className="div-popup-container">
+              <h4>Vessel Options</h4>
 
-            <p>MMSI: {currentVessel.MMSI}</p>
-            <p>Name: N/A </p>
-            <p>Vessel Type: </p>
-            <p>Length: N/A</p>
-            <p>Width: N/A</p>
-            <p>Draft: N/A</p>
-            <p>Cargo: N/A </p>
-            <p>lat: {currentVessel.LAT}</p>
-            <p>lon: {currentVessel.LON}</p>
-          </div>
-        </Popup>
-      )}
+              <p>MMSI: {currentVessel.MMSI}</p>
+              <p>Name: N/A </p>
+              <p>Vessel Type: </p>
+              <p>Length: N/A</p>
+              <p>Width: N/A</p>
+              <p>Draft: N/A</p>
+              <p>Cargo: N/A </p>
+              <p>lat: {currentVessel.LAT}</p>
+              <p>lon: {currentVessel.LON}</p>
+            </div>
+          </Popup>
+        </Marker>
+      ))}
     </>
   );
 };

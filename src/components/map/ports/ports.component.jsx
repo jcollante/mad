@@ -14,7 +14,9 @@ const Ports = ({ test, setTest }) => {
   // Call useEffect by changing the variable and then causing the rendering effect
   useEffect(() => {
     // fetch("https://raw.githubusercontent.com/jcollante/mad/main/ports.json")
-    fetch("https://raw.githubusercontent.com/jcollante/mad/main/ports.json")
+    fetch(
+      "https://raw.githubusercontent.com/jcollante/mad/main/public/data/ports.json"
+    )
       .then((response) => response.json())
       .then((json_ports) => setPorts(json_ports.ports))
       .then(() => setViewPort(map.getBounds()));
