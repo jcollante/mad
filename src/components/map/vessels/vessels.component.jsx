@@ -168,26 +168,7 @@ const Vessels = () => {
             },
           }}
           rotationAngle={Math.abs(v.Heading)}
-        >
-          <Popup
-            key={"vessel-" + currentVessel.MMSI + Math.random() * 1000}
-            position={[currentVessel.LAT, currentVessel.LON]}
-          >
-            <div className="div-popup-container">
-              <h4>Vessel Options</h4>
-
-              <p>MMSI: {currentVessel.MMSI}</p>
-              <p>Name: N/A </p>
-              <p>Vessel Type: </p>
-              <p>Length: N/A</p>
-              <p>Width: N/A</p>
-              <p>Draft: N/A</p>
-              <p>Cargo: N/A </p>
-              <p>lat: {currentVessel.LAT}</p>
-              <p>lon: {currentVessel.LON}</p>
-            </div>
-          </Popup>
-        </Marker>
+        ></Marker>
       ))}
     </>
   );

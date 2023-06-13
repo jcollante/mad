@@ -11,7 +11,7 @@ import Vessels from "./vessels/vessels.component";
 import DrawControl from "./drawcontrol/drawcontrol.component";
 import TimeControl from "./timecontrol/timecontrol.component";
 import Path2 from "./path/path2.component";
-import SideBar from "./sidebar/sidebar.component";
+import SidebarMain from "./sidebar/sidebar-main.component";
 
 import { VesselContext } from "../../contexts/vessel.context";
 
@@ -44,15 +44,15 @@ export const Map = () => {
             <div className="header-temp">
               <img className="img-deloitte" src="./deloitte.png" alt="" />
             </div>
-            <div className="header-temp">
+            <div className="header-temp2">
               <b>Maritime Anomaly Detection</b>
             </div>
           </div>
         </div>
-        <div className="header-temp">
+        {/* <div className="header-temp">
           <input placeholder="URL to backend" onChange={onSearchChange} />
         </div>
-        <div className="header-temp">Selected Vessel: {currentVessel.MMSI}</div>
+        <div className="header-temp">Selected Vessel: {currentVessel.MMSI}</div> */}
       </div>
       <MapContainer
         center={[53.0902, 7.7129]}
@@ -89,7 +89,7 @@ export const Map = () => {
         </LayersControl>
         <TimeControl />
       </MapContainer>
-      <SideBar></SideBar>
+      <SidebarMain></SidebarMain>
     </>
   );
 };

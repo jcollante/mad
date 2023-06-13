@@ -11,6 +11,14 @@
   margin-left: 5px;
 }
 
+.header-temp2{
+  float: left; 
+  background-color: black; 
+  width: 40%;
+  margin-top: 10px;
+  margin-left: 5px;
+}
+
 div.title-wrapper {
   display: flex;
   width: 100%; 
